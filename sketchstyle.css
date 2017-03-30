@@ -1,0 +1,11 @@
+/*Stylesheet for etch-a-sketch project*/
+h1 {
+  text-align: center;
+}
+
+.container {
+  margin: 15px auto 0 auto;
+}
+.pageTitle {}
+.optionsMenu {}
+.sketchCanvas {}
