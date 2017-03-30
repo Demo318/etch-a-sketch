@@ -1,16 +1,7 @@
 //Script for etch-a-sketch project
 
-var canvasSize = 42;
-
-//Assign canvas size to var
-//Create var that includes a list of canvasSize divs
-//.append canvasSize divs to .sketchCanvas
-//.append canvasSize divs to .sketchCanvas > div
-//CSS display:block to .sketchCanvas>div
-//CSS display:inline-block and size to .sketchCanvas>div>div
-
-
 var buildCanvas = function (howBig) {
+  var initialBckgd = "gray";
   var lotsOfDivs = "";
   var pixelSize = 100/howBig;
   pixelSize = pixelSize.toString();
@@ -26,17 +17,50 @@ var buildCanvas = function (howBig) {
   $('.sketchCanvas > div > div').css({
     'display':'inline-block',
     //'position':'relative',
-    'background-color':'gray',
+    'background-color':initialBckgd,
     'margin':'0px',
     'width':pixelSize + '%',
     'height':'100%',
-  }).append('&nbsp;');}
+  }).append('&nbsp;');
+// try putting listener here
+$('.sketchCanvas > div > div').on('mouseenter', function() {
+  if ($('input.checkbox_check').prop('checked')) {
+   if (1 === 1){
+      var r =  Math.floor(Math.random() * (255 - 1 +1)) + 1
+      var g =  Math.floor(Math.random() * (255 - 1 +1)) + 1
+      var b = Math.floor(Math.random() * (255 - 1 +1)) + 1
+      r = r.toString();
+      g = g.toString();
+      b = b.toString();
+      $(this).css({'background-color':'rgb('+r+','+g+','+b+')'});
+   } else {
+      $(this).css({'opacity':'50%'});
+    }
+  }
+  else{
+  $(this).css({'background-color':'black'})
+  }
+})
+
+
+
+}
 
 $(document).ready(function() {
-  buildCanvas(canvasSize);
-//change pixel color on mouseenter
-  $('.sketchCanvas > div > div').on('mouseenter', function() {
-    $(this).css({'background-color':'black'})
-  })
+//  var thismany = prompt("How many pixels?")
+  buildCanvas(24);
+
+  $('button').on('click', function(){
+    $('.sketchCanvas').fadeOut(400, function() {
+      $(this).find('div').remove();
+      buildCanvas(prompt("Please enter the number of pixels you would like on your x and y axes:"));
+      $(this).fadeIn();
+    })
+  });
+
+
+
+
+//
 
 });
