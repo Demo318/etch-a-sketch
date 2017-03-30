@@ -1,7 +1,7 @@
 //Script for etch-a-sketch project
 
 var buildCanvas = function (howBig) {
-  var initialBckgd = "gray";
+  var initialBckgd = "rgb(200, 200, 200)"; //must have spaces between comma & number
   var lotsOfDivs = "";
   var pixelSize = 100/howBig;
   pixelSize = pixelSize.toString();
@@ -25,16 +25,16 @@ var buildCanvas = function (howBig) {
 // try putting listener here
 $('.sketchCanvas > div > div').on('mouseenter', function() {
   if ($('input.checkbox_check').prop('checked')) {
-   if (1 === 1){
-      var r =  Math.floor(Math.random() * (255 - 1 +1)) + 1
-      var g =  Math.floor(Math.random() * (255 - 1 +1)) + 1
+   if ($(this).css("background-color") === initialBckgd || $(this).css("background-color") === "rgb(0, 0, 0)"){
+      var r = Math.floor(Math.random() * (255 - 1 +1)) + 1
+      var g = Math.floor(Math.random() * (255 - 1 +1)) + 1
       var b = Math.floor(Math.random() * (255 - 1 +1)) + 1
       r = r.toString();
       g = g.toString();
       b = b.toString();
-      $(this).css({'background-color':'rgb('+r+','+g+','+b+')'});
+      $(this).css({'background-color':'rgb('+r+','+g+','+b+')', "filter":"brightness(100%)"});
    } else {
-      $(this).css({'opacity':'50%'});
+     //function to make colors 10% darker on each pass. After 10 passes, turns black.
     }
   }
   else{
@@ -48,12 +48,20 @@ $('.sketchCanvas > div > div').on('mouseenter', function() {
 
 $(document).ready(function() {
 //  var thismany = prompt("How many pixels?")
-  buildCanvas(24);
+  buildCanvas(16);
 
   $('button').on('click', function(){
     $('.sketchCanvas').fadeOut(400, function() {
       $(this).find('div').remove();
-      buildCanvas(prompt("Please enter the number of pixels you would like on your x and y axes:"));
+      var tryingthis = function() {
+        var newSize = prompt('How many pixels would you like on your new canvas? Please enter a number between 4 and 124:')
+        while (newSize < 4 || newSize > 124 || isNaN(newSize)) {
+          newSize = prompt("Please enter a number between 4 and 124:")
+        }
+
+        buildCanvas(newSize);
+      }
+      tryingthis();
       $(this).fadeIn();
     })
   });
